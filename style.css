@@ -22,7 +22,7 @@ header {
   font-size: 2em;
 }
 
-/* Ana butonlar */
+/* Anasayfa Butonları */
 .home-container {
   flex: 1;
   display: flex;
@@ -56,6 +56,7 @@ header {
   opacity: 0.8;
 }
 
+/* Halısaha Ayarla Sayfası */
 .selection-container {
   display: flex;
   flex: 1;
@@ -105,6 +106,7 @@ ul {
   pointer-events: none;
 }
 
+/* Devam Butonu */
 .bottom-right {
   text-align: right;
   padding: 20px;
@@ -124,6 +126,9 @@ ul {
   background-color: #2196f3;
   cursor: pointer;
 }
+
+/* Takım Ayarla Sayfası */
+
 .info-bar {
   text-align: center;
   padding: 10px;
@@ -166,6 +171,9 @@ ul {
   list-style: none;
   padding: 0;
 }
+
+/* Özet ve İptal Sayfaları */
+
 footer.not {
   text-align: center;
   padding: 15px;
@@ -173,6 +181,58 @@ footer.not {
   color: #666;
   background-color: #f9f9f9;
 }
+
+/* Maçlar için yatay sekme bar */
+
+.match-tabs {
+  display: flex;
+  overflow-x: auto;
+  background-color: #f0f0f0;
+  padding: 10px 5px;
+  border-bottom: 2px solid #ccc;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.match-tab {
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.match-tab:hover {
+  background-color: #1769aa;
+}
+
+.match-tab.active {
+  background-color: #0b4a85;
+}
+
+/* Ana Menü Butonu */
+
+.bottom-right button#ana-menu-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.bottom-right button#ana-menu-btn:hover {
+  background-color: #388e3c;
+}
+
+/* İptal Butonu */
+
 .iptal-btn {
   padding: 10px 20px;
   font-size: 1rem;
