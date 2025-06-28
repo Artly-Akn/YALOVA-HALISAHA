@@ -56,3 +56,71 @@ header {
   opacity: 0.8;
 }
 
+.selection-container {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.list-container {
+  flex: 1;
+  margin: 0 20px;
+}
+
+.list-container h2 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+}
+
+.item {
+  background-color: #e0e0e0;
+  margin: 10px 0;
+  padding: 15px;
+  text-align: center;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.item:hover {
+  background-color: #ccc;
+}
+
+.item.selected {
+  background-color: #4caf50;
+  color: white;
+}
+
+.item.disabled {
+  background-color: #aaa;
+  color: #666;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.bottom-right {
+  text-align: right;
+  padding: 20px;
+}
+
+#devam-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: grey;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: not-allowed;
+}
+
+#devam-btn.active {
+  background-color: #2196f3;
+  cursor: pointer;
+}
