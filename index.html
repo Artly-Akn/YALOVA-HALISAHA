@@ -1,0 +1,196 @@
+// Bu dosya Postman.js sistemini kullanmak üzere güncellendi.
+// Gerekli HTML yapısı minimal olacak, tüm içerik JavaScript ile üretilecek.
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YALOVA HALISAHA</title>
+  <script src="https://unpkg.com/postman.js@2.1.1/dist/postman.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #f0f0f0;
+      color: #333;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      padding: 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 20px;
+      font-size: 20px;
+      margin: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 45%;
+    }
+    .button.disabled {
+      background-color: #aaa;
+      pointer-events: none;
+    }
+    .list {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .list-column {
+      width: 45%;
+    }
+    .list-column button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+    }
+    .teams {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .team {
+      width: 45%;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .team h3 {
+      margin-top: 0;
+    }
+    .note {
+      text-align: center;
+      margin-top: 30px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <header>YALOVA HALISAHA</header>
+  <div id="app" class="container"></div>
+
+  <script>
+    const state = {
+      screen: 'home',
+      selectedField: '',
+      selectedTime: '',
+      teamA: [],
+      teamB: [],
+      isCancel: false
+    };
+
+    const fields = [
+      { name: 'A HALISAHA', available: true },
+      { name: 'B HALISAHA', available: true },
+      { name: 'C HALISAHA', available: false },
+    ];
+
+    const times = [
+      { name: '18:00', available: true },
+      { name: '19:00', available: false },
+      { name: '20:00', available: true },
+    ];
+
+    const pm = new Postman({
+      root: '#app',
+      data: state,
+      render({ data }) {
+        if (data.screen === 'home') {
+          return `
+            <button class="button" @click="data.screen='setup'">HALISAHA AYARLAMA</button>
+            <button class="button" @click="data.screen='cancel'; data.isCancel=true">İPTAL ETME</button>
+          `;
+        }
+
+        if (data.screen === 'setup') {
+          return `
+            <div class="list">
+              <div class="list-column">
+                <h3>Halisahalar</h3>
+                ${fields.map(f => `
+                  <button class="${!f.available ? 'disabled' : ''}" @click="data.selectedField='${f.name}'; checkContinue()">
+                    ${f.name}
+                  </button>`).join('')}
+              </div>
+              <div class="list-column">
+                <h3>Zamanlar</h3>
+                ${times.map(t => `
+                  <button class="${!t.available ? 'disabled' : ''}" @click="data.selectedTime='${t.name}'; checkContinue()">
+                    ${t.name}
+                  </button>`).join('')}
+              </div>
+            </div>
+            <div style="text-align:right; margin-top:20px;">
+              <button class="button ${data.selectedField && data.selectedTime ? '' : 'disabled'}" @click="data.screen='teams'">DEVAM</button>
+            </div>
+          `;
+        }
+
+        if (data.screen === 'teams') {
+          return `
+            <h2>${data.selectedField} - ${data.selectedTime}</h2>
+            <div class="teams">
+              <div class="team">
+                <h3>A TAKIMI</h3>
+                <ul>${data.teamA.map(p => `<li>${p}</li>`).join('')}</ul>
+                <button @click="addPlayer('A')">Oyuncu Ekle</button>
+              </div>
+              <div class="team">
+                <h3>B TAKIMI</h3>
+                <ul>${data.teamB.map(p => `<li>${p}</li>`).join('')}</ul>
+                <button @click="addPlayer('B')">Oyuncu Ekle</button>
+              </div>
+            </div>
+            <div style="text-align:right; margin-top:20px;">
+              <button class="button" @click="data.screen='final'">DEVAM</button>
+            </div>
+          `;
+        }
+
+        if (data.screen === 'final') {
+          return `
+            <h2>${data.selectedField} - ${data.selectedTime}</h2>
+            <div class="teams">
+              <div class="team">
+                <h3>A TAKIMI</h3>
+                <ul>${data.teamA.map(p => `<li>${p}</li>`).join('')}</ul>
+              </div>
+              <div class="team">
+                <h3>B TAKIMI</h3>
+                <ul>${data.teamB.map(p => `<li>${p}</li>`).join('')}</ul>
+              </div>
+            </div>
+            <p class="note">ÖDEME NAKİT OLARAK ÖDENECEK.</p>
+            ${data.isCancel ? '<div style="text-align:right;"><button class="button" style="background:red;" onclick="alert(\'İptal Edildi\')">İPTAL ET</button></div>' : ''}
+          `;
+        }
+      }
+    });
+
+    function addPlayer(team) {
+      const name = prompt("Oyuncu adı:");
+      if (!name) return;
+      if (team === 'A') state.teamA.push(name);
+      else state.teamB.push(name);
+      pm.update();
+    }
+
+    function checkContinue() {
+      pm.update();
+    }
+  </script>
+</body>
+</html>
