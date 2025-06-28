@@ -65,3 +65,26 @@ function devamEt() {
   window.location.href = "ozet.html";
 }
 
+// ozet.html sayfasında bilgileri göster
+if (window.location.pathname.includes("ozet.html") || window.location.pathname.includes("iptal.html")) {
+  document.getElementById('saha-bilgi').textContent = "Saha: " + (sessionStorage.getItem('saha') || "YOK");
+  document.getElementById('saat-bilgi').textContent = "Saat: " + (sessionStorage.getItem('saat') || "YOK");
+
+  const aOyuncular = JSON.parse(sessionStorage.getItem('a_takimi') || "[]");
+  const bOyuncular = JSON.parse(sessionStorage.getItem('b_takimi') || "[]");
+
+  const aList = document.getElementById('a-listesi');
+  const bList = document.getElementById('b-listesi');
+
+  aOyuncular.forEach(isim => {
+    const li = document.createElement('li');
+    li.textContent = isim;
+    aList.appendChild(li);
+  });
+
+  bOyuncular.forEach(isim => {
+    const li = document.createElement('li');
+    li.textContent = isim;
+    bList.appendChild(li);
+  });
+}
