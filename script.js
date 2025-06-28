@@ -1,5 +1,14 @@
-// ayarla.html seçme işlemleri
+// Ana Menüye Dön butonunu sayfa tamamen yüklendikten sonra ata
+window.onload = function () {
+  const anaMenuBtn = document.getElementById("ana-menu-btn");
+  if (anaMenuBtn) {
+    anaMenuBtn.onclick = () => {
+      window.location.href = "index.html";
+    };
+  }
+};
 
+// ayarla.html seçme işlemleri
 let sahaSecildi = null;
 let saatSecildi = null;
 
@@ -37,7 +46,6 @@ if (window.location.pathname.includes("ayarla.html")) {
 }
 
 // takim.html işlemleri
-
 if (window.location.pathname.includes("takim.html")) {
   document.getElementById('saha-bilgi').textContent = "Saha: " + (sessionStorage.getItem('saha') || "YOK");
   document.getElementById('saat-bilgi').textContent = "Saat: " + (sessionStorage.getItem('saat') || "YOK");
@@ -72,69 +80,58 @@ if (window.location.pathname.includes("takim.html")) {
 }
 
 // ozet.html ve iptal.html işlemleri
-
 if (
   window.location.pathname.includes("ozet.html") ||
   window.location.pathname.includes("iptal.html")
 ) {
-  document.addEventListener("DOMContentLoaded", function () {
-    const saha = sessionStorage.getItem("saha") || "YOK";
-    const saat = sessionStorage.getItem("saat") || "YOK";
-    const aOyuncular = JSON.parse(sessionStorage.getItem("a_takimi") || "[]");
-    const bOyuncular = JSON.parse(sessionStorage.getItem("b_takimi") || "[]");
+  const saha = sessionStorage.getItem("saha") || "YOK";
+  const saat = sessionStorage.getItem("saat") || "YOK";
+  const aOyuncular = JSON.parse(sessionStorage.getItem("a_takimi") || "[]");
+  const bOyuncular = JSON.parse(sessionStorage.getItem("b_takimi") || "[]");
 
-    document.getElementById("saha-bilgi").textContent = "Saha: " + saha;
-    document.getElementById("saat-bilgi").textContent = "Saat: " + saat;
+  document.getElementById("saha-bilgi").textContent = "Saha: " + saha;
+  document.getElementById("saat-bilgi").textContent = "Saat: " + saat;
 
-    const aList = document.getElementById("a-listesi");
-    const bList = document.getElementById("b-listesi");
+  const aList = document.getElementById("a-listesi");
+  const bList = document.getElementById("b-listesi");
 
-    aList.innerHTML = "";
-    bList.innerHTML = "";
+  aList.innerHTML = "";
+  bList.innerHTML = "";
 
-    aOyuncular.forEach((isim) => {
-      const li = document.createElement("li");
-      li.textContent = isim;
-      aList.appendChild(li);
-    });
-
-    bOyuncular.forEach((isim) => {
-      const li = document.createElement("li");
-      li.textContent = isim;
-      bList.appendChild(li);
-    });
-
-    const anaMenuBtn = document.getElementById("ana-menu-btn");
-    if (anaMenuBtn) {
-      anaMenuBtn.onclick = () => {
-        window.location.href = "index.html";
-      };
-    }
-
-    if (window.location.pathname.includes("ozet.html")) {
-      const tabsContainer = document.getElementById("match-tabs");
-      tabsContainer.innerHTML = "";
-
-      const matches = [
-        {
-          saha,
-          saat,
-          label: `${saha} - ${saat}`,
-        },
-      ];
-
-      matches.forEach((mac, i) => {
-        const tab = document.createElement("div");
-        tab.className = "match-tab" + (i === 0 ? " active" : "");
-        tab.textContent = mac.label;
-        tabsContainer.appendChild(tab);
-      });
-    }
+  aOyuncular.forEach((isim) => {
+    const li = document.createElement("li");
+    li.textContent = isim;
+    aList.appendChild(li);
   });
+
+  bOyuncular.forEach((isim) => {
+    const li = document.createElement("li");
+    li.textContent = isim;
+    bList.appendChild(li);
+  });
+
+  if (window.location.pathname.includes("ozet.html")) {
+    const tabsContainer = document.getElementById("match-tabs");
+    tabsContainer.innerHTML = "";
+
+    const matches = [
+      {
+        saha,
+        saat,
+        label: `${saha} - ${saat}`,
+      },
+    ];
+
+    matches.forEach((mac, i) => {
+      const tab = document.createElement("div");
+      tab.className = "match-tab" + (i === 0 ? " active" : "");
+      tab.textContent = mac.label;
+      tabsContainer.appendChild(tab);
+    });
+  }
 }
 
 // iptal etme fonksiyonu
-
 function iptalEt() {
   const onay = confirm("Rezervasyonu iptal etmek istediğinize emin misiniz?");
   if (onay) {
@@ -142,5 +139,4 @@ function iptalEt() {
     window.location.href = "index.html";
   }
 }
-
 window.iptalEt = iptalEt;
