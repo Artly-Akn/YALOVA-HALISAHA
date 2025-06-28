@@ -166,3 +166,10 @@ ul {
   list-style: none;
   padding: 0;
 }
+footer.not {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  color: #666;
+  background-color: #f9f9f9;
+}
