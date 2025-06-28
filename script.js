@@ -32,3 +32,36 @@ function kontrolEt() {
     };
   }
 }
+// Sayfa yüklendiğinde saha/saat bilgilerini yaz
+if (window.location.pathname.includes("takim.html")) {
+  document.getElementById('saha-bilgi').textContent = "Saha: " + (sessionStorage.getItem('saha') || "YOK");
+  document.getElementById('saat-bilgi').textContent = "Saat: " + (sessionStorage.getItem('saat') || "YOK");
+}
+
+// Oyuncu ekleme fonksiyonu
+function oyuncuEkle(takim) {
+  const isim = prompt("Oyuncu ismi:");
+  if (!isim) return;
+
+  const li = document.createElement('li');
+  li.textContent = isim;
+
+  if (takim === 'a') {
+    document.getElementById('a-listesi').appendChild(li);
+  } else {
+    document.getElementById('b-listesi').appendChild(li);
+  }
+}
+
+// Devam tuşu
+function devamEt() {
+  // Takım listelerini kaydet
+  const aOyuncular = [...document.querySelectorAll('#a-listesi li')].map(li => li.textContent);
+  const bOyuncular = [...document.querySelectorAll('#b-listesi li')].map(li => li.textContent);
+
+  sessionStorage.setItem('a_takimi', JSON.stringify(aOyuncular));
+  sessionStorage.setItem('b_takimi', JSON.stringify(bOyuncular));
+
+  window.location.href = "ozet.html";
+}
+
