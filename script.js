@@ -88,3 +88,10 @@ if (window.location.pathname.includes("ozet.html") || window.location.pathname.i
     bList.appendChild(li);
   });
 }
+function iptalEt() {
+  const onay = confirm("Rezervasyonu iptal etmek istediğinize emin misiniz?");
+  if (onay) {
+    sessionStorage.clear();
+    window.location.href = "index.html";
+  }
+}
